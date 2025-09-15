@@ -55,4 +55,19 @@ int main(void) {
     float profit;
    return 0;
 }
+ ```
+Model to Header File: After training a model in Python, the workshop teaches you to extract its important parameters (like weights and biases) and save them into a .h header file.
+
+Deployment with Freedom Studio: You then learned how this .h file can be included in a C/C++ program in Freedom Studio and deployed to the RISC-V SoC.
+
+My Takeaways & Future Work
+
+This project taught me the entire process of implementing an ML model on edge hardware, from initial Python development and model processing to preparing it for deployment. Presently, I have simulated the project using QEMU because I do not have access to the physical VSDSquadron PRO board. My plan is to implement this project in hardware in the future and work with more complex ML models.
+
+Tech Stack & Datasets
+
+Programming: Python (NumPy, Pandas, Scikit-learn), C/C++
+
+Tools: Google Colab, SiFive Freedom Studio 3.1.1, QEMU
+
 
