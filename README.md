@@ -1,5 +1,8 @@
 Edge-AI Deployment on RISC-V
 
+<img width="810" height="535" alt="Screenshot 2025-09-15 at 10 44 24 PM" src="https://github.com/user-attachments/assets/3a29b76a-8ba6-43fa-a67d-5edb89d8544f" />
+
+
 Overview
 
 This project is a culmination of a hands-on workshop on the VSDSquadron PRO board, which features a SiFive FE310-G002 RISC-V SoC. It explores the challenges and methods of deploying memory-efficient Machine Learning (ML) models on highly resource-constrained embedded systems. The primary objective was to master quantization and optimization techniques necessary for this process.
