@@ -1,29 +1,77 @@
-# RISC-V-Edge-AI-Workshop
-Repo for development of RISC-V Edge AI Workshop tasks
-Multi-Layer Perceptron (MLP) Visualizer
+Edge-AI Deployment on RISC-V
 
-Project Overview
+Overview
 
-This repository contains my learning and insights from a workshop on neural network visualization. The project involves using a live web-based tool to explore and understand the architecture of a Multi-Layer Perceptron (MLP) model designed for 8x8 pixel image classification. I focused on understanding how a model processes information and the importance of model quantization for embedded systems.
+This project is a culmination of a hands-on workshop on the VSDSquadron PRO board, which features a SiFive FE310-G002 RISC-V SoC. It explores the challenges and methods of deploying memory-efficient Machine Learning (ML) models on highly resource-constrained embedded systems. The primary objective was to master quantization and optimization techniques necessary for this process.
 
-What I Learned
+The Challenge: Implementing ML on Edge Hardware
 
-Neural Network Architecture: I gained a hands-on understanding of a Multi-Layer Perceptron (MLP), a foundational neural network model. I learned that the network has a 64-neuron input layer, which corresponds to the 64 pixels of the input image.
+The SiFive FE310-G002's limited SRAM (16 KB) and lack of dedicated DSP/vector hardware make running even modest ML models extremely difficult. My key challenge was to overcome these constraints by developing a heavily quantized model that could successfully run on the SoC. The project demonstrates a complete workflow from model training in Python to deployment on a low-level embedded platform.
 
-Model Visualization: I used a visualizer tool to see a neural network in action. I observed how data flows from the input layer through the hidden layers, with positive activations represented by blue lines and negative activations by orange lines.
+Key Learnings & Projects
 
-Model Quantization: I learned about model quantization, a key concept for embedded machine learning. Quantization is the process of converting a model's weights and activations to lower-precision numbers. This is crucial for deployment on edge devices because it makes models smaller, faster, and more power-efficient.
+Understanding Linear Regression: I started by implementing Linear Regression from scratch using Gradient Descent in Python. This foundational project, using a dataset of study hours and exam scores, helped me understand core ML concepts.
 
-My Experience with the Tool
+Choosing the Right Model for the Edge: I implemented and compared K-Nearest Neighbors (KNN) and Support Vector Machines (SVM) for classification. Through this process, I learned that SVM is a superior choice for edge AI because it requires less memory, has faster inference, and provides better generalization.
 
-I used the visualizer to explore the model's behavior. I successfully loaded a model's weights by pasting the model's content into the tool's interface. I tested the model's predictions by drawing numbers on an 8x8 canvas and observed how the network's connections lit up to make a prediction. I also learned that even a simple model can have incorrect predictions, which highlights the importance of debugging and understanding a network's behavior.
+Handwritten Digit Recognition (MNIST): The final stage of the workshop involves training a handwritten digit classifier using SVM on the MNIST dataset. This project proves that you can achieve strong accuracy for a complex task without needing a large, deep neural network.
 
-Technologies & Concepts
+The Technical Process: From Python to Hardware
 
-Model: Multi-Layer Perceptron (MLP)
+The workshop teaches you a complete workflow that is highly valued in the industry. I learned how machine learning models, which are developed in Python, can be processed into a format suitable for low-level embedded platforms and ultimately applied in real-world hardware implementations.
 
-Concepts: Model Quantization, Neural Network Visualization, Activation Flow
+Here is the code snippet from the workshop, along with a breakdown of what each part does:
 
-Programming: Python (used for the model training)
+C
+#include <stdio.h>
+#include <metal/cpu.h>
+#include <metal/led.h>
+#include <metal/button.h>
+#include <metal/switch.h>
 
-Platform: VSD's Neural Network Visualizer
+#define RTC_FREQ 32768
+
+#define x1 0.77884104f
+#define x2 0.0293919f
+#define x3 0.03471025f
+
+#define b 42989.00816508669f
+
+float predict(float inp1, float inp2, float inp3) {
+    return x1*inp1 + x2*inp2 + x3*inp3 + b;
+}
+
+void print_float(float val) {
+    int int_part = (int)val;
+    int frac_part = (int)((val - int_part) * 100);  // 2 decimal places
+    if (frac_part < 0) frac_part *= -1;
+    printf("%d.%02d", int_part, frac_part);
+}
+
+int main(void) {
+    float rDSpend = 165349.2f; //we give test values to let it predict the results
+    float aDSpend = 136897.8f;
+    float mKSpend = 471784.1f;
+    float profit;
+
+    profit = predict(rDSpend, aDSpend, mKSpend);
+    printf("profit is :- ");
+    print_float(profit);
+
+    return 0;
+}
+Model to Header File: After training a model in Python, the workshop teaches you to extract its important parameters (like weights and biases) and save them into a .h header file.
+
+Deployment with Freedom Studio: You then learned how this .h file can be included in a C/C++ program in Freedom Studio and deployed to the RISC-V SoC.
+
+My Takeaways & Future Work
+
+This project taught me the entire process of implementing an ML model on edge hardware, from initial Python development and model processing to preparing it for deployment. Presently, I have simulated the project using QEMU because I do not have access to the physical VSDSquadron PRO board. My plan is to implement this project in hardware in the future and work with more complex ML models.
+
+Tech Stack & Datasets
+
+Programming: Python (NumPy, Pandas, Scikit-learn), C/C++
+
+Tools: Google Colab, SiFive Freedom Studio 3.1.1, QEMU
+
+Datasets: studentscores.csv, Social_Network_Ads.csv, 50_Startups.csv, and MNIST dataset
